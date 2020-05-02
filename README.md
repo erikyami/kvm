@@ -78,6 +78,7 @@ kvm                   419458  1 kvm_amd
 
 Se o comando listar **kvm_intel** ou **kvm_amd**, o KVM estará configurado no seu ambiente.
 
+Fonte: https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-virtualization/index.html
 
 ## Criação de Máquinas
 TODO

@@ -16,7 +16,68 @@ grep -E 'vmx|svm' /proc/cpuinfo
 ```
 
 ## Instalação
-TODO
+
+### Fedora
+
+```
+$ dnf groupinfo virtualization
+
+
+Group: Virtualization
+Group-Id: virtualization
+Description: These packages provide a virtualization environment.
+
+Mandatory Packages:
+   =virt-install
+
+Default Packages:
+   =libvirt-daemon-config-network
+   =libvirt-daemon-kvm
+   =qemu-kvm
+   =virt-manager
+   =virt-viewer
+
+Optional Packages:
+   guestfs-browser
+   libguestfs-tools
+   python-libguestfs
+   virt-top
+```
+
+O seguinte comando vai instalar o pacote obrigatório e os pacotes padrões:
+
+```
+# dnf install @virtualization
+```
+
+Se quiser instalar os pacotes opcionais pode usar o comando:
+
+```
+# dnf group install --with-optional virtualization
+```
+   
+Depois da instalação, iniciar o serviço libvirtd:
+
+```
+# systemctl start libvirtd
+```
+
+Para configurar a inicialização durante o boot:
+
+```
+# systemctl enable libvirtd
+```
+
+Para verificar se os módulos KVM foram carregados corretamente:
+
+```
+$ lsmod | grep kvm
+kvm_amd                55563  0
+kvm                   419458  1 kvm_amd
+```
+
+Se o comando listar **kvm_intel** ou **kvm_amd**, o KVM estará configurado no seu ambiente.
+
 
 ## Criação de Máquinas
 TODO

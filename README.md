@@ -1,4 +1,4 @@
-# Utilizando Hypervisor KMV
+# Utilizando Hypervisor KVM
 
 KVM (Kernel-based Virtual Machine) é uma solução de virtualização completa para Linux com hardware x86 que possuem extensões de virtualização (Intel VT ou AMD-V). Consiste de um módulo kernel carregável (kvm.ko), este módulo provê o núcleo infraestrutura de virtualização e um módulo específico para processador, kvm-intel.ko ou kvm-amd.ko.
 

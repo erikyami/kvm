@@ -175,7 +175,7 @@ Realizando o `attach` do disco na VM:
 ```
 sudo virsh -c qemu:///system attach-disk --domain ${NOME_VM} \
 --source /var/lib/libvirt/images/${NOME_VM}-disco1.qcow2 \
---target vdc --persistent --subdriver qcow2
+--target vdb --persistent --subdriver qcow2
 ```
 
 ## Consultas

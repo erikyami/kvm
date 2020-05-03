@@ -159,6 +159,24 @@ virt-install --name ${NOME_VM} \
 
 ```
 
+## Adicionando Discos
+
+É possível adicionar novos discos a uma VM já criada. No exemplo abaixo será criado um disco `qcow2` de 4G de armazenamento.
+
+Criando o disco:
+
+```
+qemu-img create -f qcow2 /var/lib/libvirt/images/${NOME_VM}-disco1.qcow2 4G
+```
+
+Realizando o `attach` do disco na VM:
+
+
+```
+sudo virsh -c qemu:///system attach-disk --domain ${NOME_VM} \
+--source /var/lib/libvirt/images/${NOME_VM}-disco1.qcow2 \
+--target vdc --persistent --subdriver qcow2
+```
 
 ## Consultas
 

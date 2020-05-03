@@ -178,6 +178,82 @@ sudo virsh -c qemu:///system attach-disk --domain ${NOME_VM} \
 --target vdb --persistent --subdriver qcow2
 ```
 
+## Snapshots
+
+Snapshots são muito úteis para tirar uma "foto no tempo" de sua VM. Bastante utilizado antes de alguma manutenção/atualização, pois em caso de falhas é fácil voltar ao estado anterior da VM.
+
+Sintaxe:
+
+```
+virsh snapshot-create-as \
+--domain {vm_name} \
+--name {snapshot_name} \
+--description  "enter description here"
+```
+
+### Criando um snapshot
+
+```
+virsh -c qemu:///system snapshot-create-as \
+--domain ${NOME_VM} \
+--name ${NOME_VM}_snap \
+--description "Snapshot antes da instalacao do Apache"
+```
+
+### Listando os snapshots de uma VM
+
+```
+virsh -c qemu:///system snapshot-list --domain ${NOME_VM}
+ Nome           Tempo de criação            Estado
+-----------------------------------------------------
+ CentOS8_snap   2020-05-03 01:08:42 -0300   shutoff
+
+```
+
+
+### Informações Detalhadas Snapshot
+
+```
+virsh -c qemu:///system snapshot-info \
+--domain ${NOME_VM} --snapshotname ${NOME_VM}_snap
+
+Nome:           CentOS8_snap
+Domínio:       CentOS8
+Atual:          sim
+Estado:         shutoff
+Local:          interno
+Pai:            -
+Filho:          0
+Descendente:    0
+Metadados:      sim
+```
+
+### Revertendo a VM ao Snapshot
+
+Sintaxe:
+
+```
+virsh snapshot-revert {vm_name} {snapshot_name}
+```
+
+Exemplo:
+
+```
+virsh -c qemu:///system snapshot-revert ${NOME_VM} ${NOME_VM}_snap
+```
+
+
+### Removendo um Snapshot
+
+```
+virsh -c qemu:///system snapshot-delete --domain ${NOME_VM} --snapshotname ${NOME_VM}_snap
+Snapshot de domínio CentOS8_snap removido
+```
+
+
+
+
+
 ## Consultas
 
 Listar Máquinas Virtuais:

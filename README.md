@@ -268,3 +268,16 @@ $ virsh -c qemu:///system list --all
  -    k8s_node02.hl.local        desligado
  -    nfs_nfs.hl.local           desligado
 ```
+
+
+
+Listar Redes:
+
+```
+ $ virsh -c qemu:///system net-list --all
+ Nome              Estado   Auto-iniciar   Persistente
+--------------------------------------------------------
+ default           ativo    sim            sim
+ Rede_Local        ativo    sim            sim
+ vagrant-libvirt   ativo    sim            sim
+```

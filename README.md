@@ -137,6 +137,7 @@ Criando um disco de 20G no formato `qcow2`
 Após verificar os recursos disponíveis no host, criar o disco rígido, é hora de criar de fato a VM:
 
 ```
+export LIBVIRT_DEFAULT_URI='qemu:///system'
 NOME_VM='CentOS8'
 DESCRICAO='Maquina CentOS 8'
 RAM=2048
@@ -150,11 +151,11 @@ virt-install --name ${NOME_VM} \
 --description "${DESCRICAO}" \
 --ram ${RAM} \
 --vcpus ${VCPUS} \
---disk path=/var/lib/libvirt/images/${NOME_VM}.qcow2 \
+--disk path=/var/lib/libvirt/images/${NOME_VM}.qcow2,bus=virtio,cache=none \
 --os-type linux \
 --os-variant ${VARIANTE} \
---network bridge=virbr0 \
---graphics vnc,listen=127.0.0.1,port=5901 \
+--network bridge=virbr0,model=virtio \
+--accelerate --vnc \
 --cdrom ${ISO}
 
 ```
@@ -250,10 +251,6 @@ virsh -c qemu:///system snapshot-delete --domain ${NOME_VM} --snapshotname ${NOM
 Snapshot de domínio CentOS8_snap removido
 ```
 
-
-
-
-
 ## Consultas
 
 Listar Máquinas Virtuais:
@@ -267,4 +264,16 @@ $ virsh -c qemu:///system list --all
  -    k8s_node01.hl.local        desligado
  -    k8s_node02.hl.local        desligado
  -    nfs_nfs.hl.local           desligado
+```
+
+## Operações
+
+### Iniciando uma máquina virtual
+```
+$virsh -c qemu:///system start CentOS8
+```
+
+### Abrindo a janela da VM com virt-viewer
+```
+virt-viewer -c qemu:///system --domain-name CentOS8
 ```

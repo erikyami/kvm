@@ -276,4 +276,16 @@ $virsh -c qemu:///system start CentOS8
 ### Abrindo a janela da VM com virt-viewer
 ```
 virt-viewer -c qemu:///system --domain-name CentOS8
+=======
+
+
+Listar Redes:
+
+```
+ $ virsh -c qemu:///system net-list --all
+ Nome              Estado   Auto-iniciar   Persistente
+--------------------------------------------------------
+ default           ativo    sim            sim
+ Rede_Local        ativo    sim            sim
+ vagrant-libvirt   ativo    sim            sim
 ```

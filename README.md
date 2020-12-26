@@ -89,6 +89,53 @@ Esta rede privada vai usar a subrede 192.168.x.x e não será acessível diretam
 
 Veja a [página de configuração de rede (libvirt)](https://wiki.libvirt.org/page/Networking) para mais informações de como configurar uma rede bridge.
 
+### Virtual Network Switchs
+
+Libvirt usa o conceito de "Virtual Network Switch" - Switch de Rede Virtual. No Linux um virtual network switch aparece como uma interface de rede.
+
+```
+$ ifconfig virbr0
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether 52:54:00:65:1c:e3  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
+
+$ ip addr show virbr0
+4: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default qlen 1000
+    link/ether 52:54:00:65:1c:e3 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
+       valid_lft forever preferred_lft forever
+```
+
+### NAT
+
+Por padrão, um virtual network switch opera em modo NAT, ou seja, as vms conectadas usarão o IP do host para a comunicação com a internet.
+
+### DNS e DHCP
+ 
+ Cada virtual network switch pode ter um range de IPs para entregá-los via DHCP. Libvirt usa um programa chamado "dnsmasq" para isto. Uma instância do dnsmasq é automaticamente configurada e iniciada pelo libvirt para cada virtual switch network.
+
+### Outros modos
+
+Virtual network switches podem operar em dois outros modos além de NAT:
+
+ - Routed Mode
+ - Isolated Mode
+
+#### Routed Mode
+
+Com o modo "routed", o switch vitrtual é conectado diretamente na LAN do host físico, sem usar NAT. As VMs conectadas estarão diretamente na mesma rede do host físico.
+
+#### Isolated Mode
+
+Neste modo, as VMs conectadas ao virtual switch podem se comunicar diretamente umas as outras. Porém o tráfico não sairá do host e nem pode receber dados de fora do host.
+
+
 ## Criação de Máquinas
 
 ### Criando um guest com virt-install
